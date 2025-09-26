@@ -12,7 +12,7 @@ namespace testUnCptBq
         public void ClasseCompteExiste()
         {
             //Arranger
-            Type compteType = typeof(Compte);
+            System.Type compteType = typeof(Compte);
             //Auditer
             Assert.IsNotNull(compteType, "La classe Compte n'existe pas.");
         }
@@ -269,7 +269,7 @@ namespace testUnCptBq
 
             // Assert  
             Assert.IsNotNull(constructeur, "Le constructeur Banque n'existe pas.");
-       
+
 
         }
 
@@ -296,5 +296,97 @@ namespace testUnCptBq
             Assert.AreEqual(expected, result, "La méthode ToString() ne retourne pas le format attendu.");
         }
 
+        [TestMethod]
+        public void RendCompte_CompteExiste_RetourneCompteTested()
+        {
+            // Arranger
+            Banque banque = new Banque();
+            Compte compte = new Compte(123456, "toto", 1000.50m, -500.00m);
+            banque.AjouteCompte(compte);
+            // Agir
+            Compte resultat = banque.RendCompte(123456);
+            // Assert
+            Assert.IsNotNull(resultat, "Le compte devrait être trouvé");
+            Assert.AreEqual(compte, resultat, "Le compte retourné n'est pas le bon");
+        }
+
+        [TestMethod]
+        public void RetourneTypeDeMouvement()
+        {
+            // Arranger
+            Banque banque = new Banque();
+            Type_ type1 = new Type_("001", "TypeA", '+');
+            Type_ type2 = new Type_("002", "TypeB", '-');
+            banque.AjouterType(type1);
+            banque.AjouterType(type2);
+
+            // Agir
+            string resultat = banque.GetTypes("TypeA");
+
+            // Assert
+            Assert.IsTrue(resultat.Contains(type1.ToString()), "Le type avec le libellé spécifié devrait être inclus dans le résultat");
+            Assert.IsFalse(resultat.Contains(type2.ToString()), "Le type avec un libellé différent ne devrait pas être inclus dans le résultat");
+        }
+
+        [TestMethod]
+        public void ClasseTypeExiste()
+        {
+            //Arranger
+            Type TypeType = typeof(Type_);
+            //Auditer
+            Assert.IsNotNull(TypeType, "La classe Type n'existe pas.");
+        }
+
+        [TestMethod]
+        public void ClasseMouvementExiste()
+        {
+            //Arranger
+            Type MouvementType = typeof(Mouvement);
+            //Auditer
+            Assert.IsNotNull(MouvementType, "La classe Mouvement n'existe pas.");
+        }
+
+        [TestMethod]
+        public void ClasseType_Existe()
+        {
+            //Arranger
+            Type TypeType = typeof(Type_);
+            //Auditer
+            Assert.IsNotNull(TypeType, "La classe Type_ n'existe pas.");
+        }
+
+        [TestMethod]
+        public void ConstructeurType_Existe()
+        {
+            // Arranger  
+            Type TypeType = typeof(Type_);
+            // Agir  
+            ConstructorInfo constructeur = TypeType.GetConstructor(new Type[] { typeof(string), typeof(string), typeof(char) });
+            // Assert  
+            Assert.IsNotNull(constructeur, "Le constructeur Type_(string code, string libelle, char sens) n'existe pas.");
+        }
+        [TestMethod]
+        public void ToString_ReturnsCorrectFormatType()
+        {
+            // Arranger
+            Type_ type = new Type_("001", "TypeA", '+');
+            string expected = "Code: 001, Libelle: TypeA, Sens: +";
+
+            // Agir
+            string result = type.ToString();
+
+            // Assert
+            Assert.AreEqual(expected, result, "La méthode ToString() ne retourne pas le format attendu.");
+        }
+
+        public void ConstructeurMouvement_Existe()
+        {
+            // Arranger  
+            Type MouvementType = typeof(Mouvement);
+            // Agir  
+            ConstructorInfo constructeur = MouvementType.GetConstructor(new Type[] { typeof(int), typeof(DateTime), typeof(decimal), typeof(string), typeof(Type_) });
+            // Assert  
+            Assert.IsNotNull(constructeur, "Le constructeur Mouvement(int numero, DateTime date, decimal montant, string motif, Type_ type) n'existe pas.");
+        }
     }
 }

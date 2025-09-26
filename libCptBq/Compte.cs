@@ -14,6 +14,7 @@ namespace libCptBq
         private string nom;
         private decimal solde;
         private decimal decouvertAutorise; // valeur négative
+        private List<Mouvement> mesMouvements = new List<Mouvement>();
 
         /// <summary>
         /// Propriétés implémentées automatiquement
@@ -37,6 +38,12 @@ namespace libCptBq
         {
             get { return decouvertAutorise; }
             set { decouvertAutorise = value; }
+        }
+
+        public List<Mouvement> MesMouvements
+        {
+            get { return mesMouvements; }
+            set { mesMouvements = value; }
         }
 
 
@@ -152,6 +159,11 @@ namespace libCptBq
 
             }
 
+        }
+
+        public void AjouterMouvement(Mouvement m)
+        {
+            mesMouvements.Add(m);
         }
     }
 }
